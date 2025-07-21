@@ -195,10 +195,10 @@ If you use RadialClustering in your research, please cite:
 ```bibtex
 @software{radial_clustering_2024,
   title={RadialClustering: Ultra-Fast Clustering with Radial Distribution Initialization},
-  author={[Your Name]},
+  author={[Aditya Girish]},
   year={2024},
-  url={https://github.com/yourusername/radial-clustering},
-  note={A novel clustering algorithm achieving 77x speed improvement over existing methods}
+  url={https://github.com/adityagirishh/radial-clustering},
+  note={A novel clustering initialisation achieving 77x speed improvement over existing methods}
 }
 ```
 
@@ -207,9 +207,6 @@ If you use RadialClustering in your research, please cite:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🔗 Links
-
-- **Documentation**: [Full API Documentation](https://radial-clustering.readthedocs.io)
-- **Paper**: [Algorithm Description and Analysis](link-to-paper)
 - **Benchmarks**: [Comprehensive Performance Analysis](benchmarks/)
 - **Issues**: [Bug Reports and Feature Requests](https://github.com/yourusername/radial-clustering/issues)
 
@@ -221,10 +218,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-- **Author**: [Your Name]
-- **Email**: [your.email@domain.com]
+- **Author**: [Aditya Girish]
+- **Email**: [adityadeepa634@gmail.com]
 - **LinkedIn**: [Your LinkedIn Profile]
-- **Research Gate**: [Your Research Gate Profile]
 
 ---
 
