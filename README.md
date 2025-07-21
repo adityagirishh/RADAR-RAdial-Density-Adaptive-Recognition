@@ -2,9 +2,6 @@
 
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Performance](https://img.shields.io/badge/Speed-77x%20Faster-green.svg)]()
-[![Memory](https://img.shields.io/badge/Memory-0.11MB%20avg-green.svg)]()
-
 A revolutionary clustering algorithm that achieves **state-of-the-art performance** through novel radial distribution initialization and memory-efficient batch processing. RadialClustering delivers exceptional speed (77x faster than current methods) while maintaining competitive clustering accuracy.
 
 ## 🚀 Key Features
