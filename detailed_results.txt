@@ -1,0 +1,105 @@
+# Radial Clustering Benchmark Report
+
+## Time and Memory Efficiency (in KB)
+![Time and Memory Analysis](clustering_results_20250719_200123/plots/time_memory_analysis.png)
+
+### Detailed Results Table
+
+| Algorithm               | Dataset        |        Time |        Memory_KB |
+|:------------------------|:---------------|------------:|-----------------:|
+| KMeans++                | blobs_easy     | 0.149398    |    261.47        |
+| KMeans_random           | blobs_easy     | 0.0682712   |     80           |
+| RadialClustering        | blobs_easy     | 0.0010078   |     28.8906      |
+| MiniBatchKMeans         | blobs_easy     | 0.0644221   |    160           |
+| GMM                     | blobs_easy     | 0.0507588   |    240           |
+| AgglomerativeClustering | blobs_easy     | 0.00437999  |    403.442       |
+| Spectral                | blobs_easy     | 0.113906    |   3314.9         |
+| KMeans++                | blobs_hard     | 0.017462    |     41.8193      |
+| KMeans_random           | blobs_hard     | 0.110106    |     45.0234      |
+| RadialClustering        | blobs_hard     | 0.00409889  |     29.2422      |
+| MiniBatchKMeans         | blobs_hard     | 0.129135    |     46.8184      |
+| GMM                     | blobs_hard     | 0.00751209  |     55.1133      |
+| AgglomerativeClustering | blobs_hard     | 0.00617695  |    399.734       |
+| Spectral                | blobs_hard     | 0.240538    |   2828.61        |
+| KMeans++                | blobs_uneven   | 0.00361872  |     41.877       |
+| KMeans_random           | blobs_uneven   | 0.037678    |     44.6641      |
+| RadialClustering        | blobs_uneven   | 0.00187683  |     28.8906      |
+| MiniBatchKMeans         | blobs_uneven   | 0.0930092   |     46.8184      |
+| GMM                     | blobs_uneven   | 0.0330272   |     55.6338      |
+| AgglomerativeClustering | blobs_uneven   | 0.00781679  |    399.719       |
+| Spectral                | blobs_uneven   | 0.0318878   |   2828.6         |
+| KMeans++                | moons          | 0.011785    |     31.1982      |
+| KMeans_random           | moons          | 0.0276449   |     43.9941      |
+| RadialClustering        | moons          | 0.00129366  |     26.8828      |
+| MiniBatchKMeans         | moons          | 0.0452759   |     40.5898      |
+| GMM                     | moons          | 0.0128593   |     43.6494      |
+| AgglomerativeClustering | moons          | 0.0035069   |    399.703       |
+| Spectral                | moons          | 0.0423901   |   2828.59        |
+| KMeans++                | circles        | 0.00858617  |     31.1982      |
+| KMeans_random           | circles        | 0.110059    |     43.6533      |
+| RadialClustering        | circles        | 0.00125909  |     26.8828      |
+| MiniBatchKMeans         | circles        | 0.0400319   |     40.5693      |
+| GMM                     | circles        | 0.00724721  |     44.8926      |
+| AgglomerativeClustering | circles        | 0.00344777  |    399.688       |
+| Spectral                | circles        | 0.161761    |   2828.59        |
+| KMeans++                | moons_noisy    | 0.00667977  |     31.1982      |
+| KMeans_random           | moons_noisy    | 0.085372    |     44.0107      |
+| RadialClustering        | moons_noisy    | 0.00103283  |     26.6484      |
+| MiniBatchKMeans         | moons_noisy    | 0.145107    |     40.5693      |
+| GMM                     | moons_noisy    | 0.0103707   |     43.5918      |
+| AgglomerativeClustering | moons_noisy    | 0.00809693  |    399.672       |
+| Spectral                | moons_noisy    | 0.0413561   |   2828.58        |
+| KMeans++                | blobs_high_dim | 0.0107908   |    144.969       |
+| KMeans_random           | blobs_high_dim | 0.0354321   |    144.969       |
+| RadialClustering        | blobs_high_dim | 0.000990868 |    155.875       |
+| MiniBatchKMeans         | blobs_high_dim | 0.176989    |    126.736       |
+| GMM                     | blobs_high_dim | 0.00534511  |    245.235       |
+| AgglomerativeClustering | blobs_high_dim | 0.00414991  |    399.656       |
+| Spectral                | blobs_high_dim | 0.140666    |   2828.57        |
+| KMeans++                | blobs_large    | 0.033011    |    518.419       |
+| KMeans_random           | blobs_large    | 0.0285811   |    337.559       |
+| RadialClustering        | blobs_large    | 0.00355506  |    221.586       |
+| MiniBatchKMeans         | blobs_large    | 0.028635    |    521.479       |
+| GMM                     | blobs_large    | 0.0700221   |    637.404       |
+| AgglomerativeClustering | blobs_large    | 0.257047    | 207648           |
+| Spectral                | blobs_large    | 2.30496     | 781358           |
+| KMeans++                | blobs_xlarge   | 0.086422    |   1026.22        |
+| KMeans_random           | blobs_xlarge   | 0.037344    |    688           |
+| RadialClustering        | blobs_xlarge   | 0.0109749   |    391.305       |
+| MiniBatchKMeans         | blobs_xlarge   | 0.0160542   |    599.654       |
+| GMM                     | blobs_xlarge   | 0.16891     |   4544           |
+| AgglomerativeClustering | blobs_xlarge   | 1.24544     | 439415           |
+| Spectral                | blobs_xlarge   | 8.4577      |      3.12521e+06 |
+| KMeans++                | iris           | 0.00309014  |     64           |
+| KMeans_random           | iris           | 0.0183599   |    112           |
+| RadialClustering        | iris           | 0.00140071  |     23.3984      |
+| MiniBatchKMeans         | iris           | 0.139486    |     48           |
+| GMM                     | iris           | 0.00966907  |     64           |
+| AgglomerativeClustering | iris           | 0.00186801  |    112           |
+| Spectral                | iris           | 0.0771759   |    757.289       |
+| KMeans++                | wine           | 0.0120382   |     58.5         |
+| KMeans_random           | wine           | 0.0834608   |     58.5         |
+| RadialClustering        | wine           | 0.00463891  |     64.9922      |
+| MiniBatchKMeans         | wine           | 0.0704839   |     61.96        |
+| GMM                     | wine           | 0.00521278  |    109.015       |
+| AgglomerativeClustering | wine           | 0.00212812  |    147.641       |
+| Spectral                | wine           | 0.0450461   |   1062.23        |
+| KMeans++                | digits         | 0.0331101   |    355.439       |
+| KMeans_random           | digits         | 0.23422     |    432           |
+| RadialClustering        | digits         | 0.0758901   |    332.883       |
+| MiniBatchKMeans         | digits         | 0.0783429   |    383.112       |
+| GMM                     | digits         | 0.0917108   |    810.448       |
+| AgglomerativeClustering | digits         | 0.0573859   |  26016           |
+| Spectral                | digits         | 1.326       | 100958           |
+
+## Performance Results
+![Performance Results](clustering_results_20250719_200123/plots/performance_results.png)
+
+## Performance Comparison
+![Performance Comparison](clustering_results_20250719_200123/plots/performance_comparison.png)
+
+## Radar Chart
+![Radar Chart](clustering_results_20250719_200123/plots/radar_chart.png)
+
+---
+### For full CSVs, see clustering_benchmark_results.csv, clustering_efficiency_ranking.csv, clustering_scalability_analysis.csv
