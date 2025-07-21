@@ -208,7 +208,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔗 Links
 - **Benchmarks**: [Comprehensive Performance Analysis](benchmarks/)
-- **Issues**: [Bug Reports and Feature Requests](https://github.com/yourusername/radial-clustering/issues)
+- **Issues**: [Bug Reports and Feature Requests](https://github.com/adityagirishh/radial-clustering/issues)
 
 ## 🙏 Acknowledgments
 
@@ -220,7 +220,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Author**: [Aditya Girish]
 - **Email**: [adityadeepa634@gmail.com]
-- **LinkedIn**: [Your LinkedIn Profile]
+- **LinkedIn**: [https://www.linkedin.com/in/aditya-girish-9a3133252/]
 
 ---
 
