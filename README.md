@@ -46,7 +46,7 @@ Traditional clustering algorithms use random or probability-based initialization
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/radial-clustering.git
+git clone https://github.com/adityagirishh/radial-clustering.git
 cd radial-clustering
 
 # Install dependencies
