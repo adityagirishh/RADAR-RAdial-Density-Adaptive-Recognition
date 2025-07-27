@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RADAR Algorithm - Interactive Tutorial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .visualization-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .control-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            height: fit-content;
+        }
+        
+        #canvas {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: #fafafa;
+            cursor: crosshair;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .control-group input, .control-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status-panel {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .status-label {
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .status-value {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .legend {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .legend h4 {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #333;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .explanation {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .explanation h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f0f4ff;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>RADAR Algorithm Tutorial</h1>
+            <p>Interactive Visualization of Radial Density Adaptive Recognition</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="visualization-panel">
+                <canvas id="canvas" width="700" height="500"></canvas>
+            </div>
+            
+            <div class="control-panel">
+                <div class="status-panel">
+                    <div class="status-item">
+                        <span class="status-label">Current Step:</span>
+                        <span class="status-value" id="currentStep">Ready to Start</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Data Points:</span>
+                        <span class="status-value" id="pointCount">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Current Batch:</span>
+                        <span class="status-value" id="currentBatch">-</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Iteration:</span>
+                        <span class="status-value" id="iteration">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Convergence:</span>
+                        <span class="status-value" id="convergence">Not Started</span>
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="numClusters">Number of Clusters (k):</label>
+                        <input type="number" id="numClusters" min="2" max="8" value="3">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="batchSize">Batch Size:</label>
+                        <input type="number" id="batchSize" min="5" max="50" value="10">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="animationSpeed">Animation Speed:</label>
+                        <select id="animationSpeed">
+                            <option value="2000">Slow (2s)</option>
+                            <option value="1000" selected>Medium (1s)</option>
+                            <option value="500">Fast (0.5s)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" id="generateData">Generate Data</button>
+                    <button class="btn btn-secondary" id="clearCanvas">Clear All</button>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-success" id="initializeCentroids">Initialize Centroids</button>
+                    <button class="btn btn-warning" id="startClustering">Start Clustering</button>
+                </div>
+                
+                <button class="btn btn-primary" id="stepByStep" style="width: 100%; margin-bottom: 15px;" disabled>Next Step</button>
+                
+                <div class="legend">
+                    <h4>Legend</h4>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ff6b6b;"></div>
+                        <span>Data Points</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #4ecdc4; border-color: #000;"></div>
+                        <span>Centroids</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #45b7d1;"></div>
+                        <span>Current Batch</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #96ceb4;"></div>
+                        <span>Assigned Points</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="explanation">
+            <div class="step-indicator" id="stepIndicator">
+                <strong>Step:</strong> <span id="stepDescription">Click "Generate Data" to start</span>
+            </div>
+            <div id="algorithmExplanation">
+                <h3>Welcome to RADAR Algorithm Tutorial</h3>
+                <p>This interactive tutorial demonstrates how the RADAR (Radial Density Adaptive Recognition) algorithm works. Follow these steps:</p>
+                <ol>
+                    <li><strong>Generate Data:</strong> Create sample data points to cluster</li>
+                    <li><strong>Initialize Centroids:</strong> See how radial initialization places centroids intelligently</li>
+                    <li><strong>Start Clustering:</strong> Watch batch-by-batch processing and centroid updates</li>
+                </ol>
+                <p>The algorithm processes data in batches for memory efficiency while maintaining clustering accuracy through intelligent radial initialization.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class RADARVisualizer {
+            constructor() {
+                this.canvas = document.getElementById('canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.dataPoints = [];
+                this.centroids = [];
+                this.assignments = [];
+                this.batches = [];
+                this.currentBatch = 0;
+                this.iteration = 1;
+                this.isRunning = false;
+                this.step = 0;
+                this.colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd'];
+                this.tol = 1e-4;
+                this.max_iter = 10;
+                this.prevCentroids = [];
+                this.initializeEventListeners();
+                this.updateUI();
+            }
+            
+            initializeEventListeners() {
+                document.getElementById('generateData').addEventListener('click', () => this.generateRandomData());
+                document.getElementById('clearCanvas').addEventListener('click', () => this.clearCanvas());
+                document.getElementById('initializeCentroids').addEventListener('click', () => this.initializeCentroids());
+                document.getElementById('startClustering').addEventListener('click', () => this.startClustering());
+                document.getElementById('stepByStep').addEventListener('click', () => this.nextStep());
+                // Allow user to add points by clicking on the canvas
+                this.canvas.addEventListener('click', (e) => this.addPointOnClick(e));
+            }
+
+            addPointOnClick(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                this.dataPoints.push({x, y, cluster: -1, inCurrentBatch: false});
+                this.assignments = new Array(this.dataPoints.length).fill(-1);
+                this.updateUI();
+                this.render();
+                this.updateStep("Point Added", "You can add more points or initialize centroids.");
+            }
+            
+            generateRandomData() {
+                this.clearCanvas();
+                const numPoints = 78;
+                this.dataPoints = [];
+                
+                // Generate clustered data
+                const numGroups = 8;
+                for (let group = 0; group < numGroups; group++) {
+                    const centerX = 150 + Math.random() * 400;
+                    const centerY = 100 + Math.random() * 300;
+                    const pointsInGroup = Math.floor(numPoints / numGroups);
+                    
+                    for (let i = 0; i < pointsInGroup; i++) {
+                        const angle = Math.random() * 2 * Math.PI;
+                        const distance = Math.random() * 60 + 10;
+                        const x = centerX + Math.cos(angle) * distance;
+                        const y = centerY + Math.sin(angle) * distance;
+                        
+                        if (x > 10 && x < this.canvas.width - 10 && y > 10 && y < this.canvas.height - 10) {
+                            this.dataPoints.push({x, y, cluster: -1, inCurrentBatch: false});
+                        }
+                    }
+                }
+                
+                this.assignments = new Array(this.dataPoints.length).fill(-1);
+                this.updateUI();
+                this.render();
+                
+                this.updateStep("Data Generated", "Sample data points created. Ready for radial centroid initialization.");
+            }
+            
+            initializeCentroids() {
+                if (this.dataPoints.length === 0) {
+                    alert('Please generate data or add points first!');
+                    return;
+                }
+                const k = parseInt(document.getElementById('numClusters').value);
+                this.centroids = [];
+                // --- RadialClustering._initialize_centroids logic ---
+                // 1. Compute distances from origin
+                const origin = this.calculateDataOrigin();
+                const distances_from_origin = this.dataPoints.map(point => Math.sqrt((point.x - origin.x) ** 2 + (point.y - origin.y) ** 2));
+                const avg_distance = distances_from_origin.reduce((a, b) => a + b, 0) / distances_from_origin.length;
+                // 2. Target distances for centroids
+                const target_distances = Array.from({length: k}, (_, i) => avg_distance / k + i * (avg_distance - avg_distance / k) / (k - 1));
+                // 3. Select points closest to each target distance
+                const selected_indices = new Set();
+                for (let t = 0; t < target_distances.length; t++) {
+                    const diffs = distances_from_origin.map((d, idx) => ({diff: Math.abs(d - target_distances[t]), idx}));
+                    diffs.sort((a, b) => a.diff - b.diff);
+                    let chosen = null;
+                    for (let d of diffs) {
+                        if (!selected_indices.has(d.idx)) {
+                            chosen = d.idx;
+                            break;
+                        }
+                    }
+                    if (chosen === null) chosen = diffs[0].idx;
+                    this.centroids.push({
+                        x: this.dataPoints[chosen].x,
+                        y: this.dataPoints[chosen].y,
+                        color: this.colors[t % this.colors.length]
+                    });
+                    selected_indices.add(chosen);
+                }
+                this.render();
+                this.updateStep("Centroids Initialized", "Centroids placed using radial distribution analysis (RadialClustering logic).");
+            }
+            
+            calculateDataOrigin() {
+                const sumX = this.dataPoints.reduce((sum, point) => sum + point.x, 0);
+                const sumY = this.dataPoints.reduce((sum, point) => sum + point.y, 0);
+                return {
+                    x: sumX / this.dataPoints.length,
+                    y: sumY / this.dataPoints.length
+                };
+            }
+            
+            startClustering() {
+                if (this.centroids.length === 0) {
+                    alert('Please initialize centroids first!');
+                    return;
+                }
+                
+                this.createBatches();
+                this.currentBatch = 0;
+                this.iteration = 1;
+                this.step = 0;
+                this.isRunning = true;
+                
+                document.getElementById('stepByStep').disabled = false;
+                document.getElementById('startClustering').disabled = true;
+                
+                this.updateStep("Clustering Started", "Beginning batch-by-batch processing. Each batch will be processed sequentially.");
+                this.updateUI();
+            }
+            
+            createBatches() {
+                const batchSize = parseInt(document.getElementById('batchSize').value);
+                this.batches = [];
+                
+                for (let i = 0; i < this.dataPoints.length; i += batchSize) {
+                    this.batches.push(this.dataPoints.slice(i, i + batchSize));
+                }
+            }
+            
+            nextStep() {
+                if (!this.isRunning) return;
+                
+                const animationSpeed = parseInt(document.getElementById('animationSpeed').value);
+                
+                if (this.currentBatch < this.batches.length) {
+                    this.processBatch(this.currentBatch);
+                    this.currentBatch++;
+                } else {
+                    this.updateCentroids();
+                    this.currentBatch = 0;
+                    this.iteration++;
+                    
+                    if (this.checkConvergence()) {
+                        this.isRunning = false;
+                        document.getElementById('stepByStep').disabled = true;
+                        document.getElementById('startClustering').disabled = false;
+                        this.updateStep("Converged", "Algorithm has converged! Final centroids represent optimal cluster centers.");
+                        document.getElementById('convergence').textContent = 'Converged';
+                    } else {
+                        this.updateStep("Iteration Complete", `Iteration ${this.iteration - 1} complete. Starting next iteration with updated centroids.`);
+                    }
+                }
+                
+                setTimeout(() => {
+                    this.render();
+                    this.updateUI();
+                }, animationSpeed / 4);
+            }
+            
+            processBatch(batchIndex) {
+                const batch = this.batches[batchIndex];
+                
+                // Clear previous batch highlighting
+                this.dataPoints.forEach(point => point.inCurrentBatch = false);
+                
+                // Highlight current batch
+                batch.forEach(point => point.inCurrentBatch = true);
+                
+                // Assign points in batch to nearest centroids
+                batch.forEach((point, localIndex) => {
+                    const globalIndex = batchIndex * parseInt(document.getElementById('batchSize').value) + localIndex;
+                    let minDistance = Infinity;
+                    let nearestCentroid = 0;
+                    
+                    this.centroids.forEach((centroid, centroidIndex) => {
+                        const distance = Math.sqrt((point.x - centroid.x) ** 2 + (point.y - centroid.y) ** 2);
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            nearestCentroid = centroidIndex;
+                        }
+                    });
+                    
+                    this.assignments[globalIndex] = nearestCentroid;
+                    point.cluster = nearestCentroid;
+                });
+                
+                this.updateStep("Processing Batch", `Processing batch ${batchIndex + 1}/${this.batches.length}. Points are assigned to nearest centroids.`);
+            }
+            
+            updateCentroids() {
+                // Save previous centroids for convergence check
+                this.prevCentroids = this.centroids.map(c => ({x: c.x, y: c.y}));
+                const newCentroids = [];
+                for (let i = 0; i < this.centroids.length; i++) {
+                    const assignedPoints = this.dataPoints.filter((point, index) => this.assignments[index] === i);
+                    if (assignedPoints.length > 0) {
+                        const sumX = assignedPoints.reduce((sum, point) => sum + point.x, 0);
+                        const sumY = assignedPoints.reduce((sum, point) => sum + point.y, 0);
+                        newCentroids.push({
+                            x: sumX / assignedPoints.length,
+                            y: sumY / assignedPoints.length,
+                            color: this.centroids[i].color
+                        });
+                    } else {
+                        newCentroids.push({...this.centroids[i]});
+                    }
+                }
+                this.centroids = newCentroids;
+                // Clear batch highlighting
+                this.dataPoints.forEach(point => point.inCurrentBatch = false);
+            }
+            
+            checkConvergence() {
+                // Check if centroids have moved less than tol (RadialClustering logic)
+                if (!this.prevCentroids || this.prevCentroids.length === 0) return false;
+                let maxMove = 0;
+                for (let i = 0; i < this.centroids.length; i++) {
+                    const dx = this.centroids[i].x - this.prevCentroids[i].x;
+                    const dy = this.centroids[i].y - this.prevCentroids[i].y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist > maxMove) maxMove = dist;
+                }
+                return maxMove < this.tol || this.iteration > this.max_iter;
+            }
+            
+            render() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Draw connections from points to centroids
+                this.dataPoints.forEach((point, index) => {
+                    if (this.assignments[index] !== -1) {
+                        const centroid = this.centroids[this.assignments[index]];
+                        this.ctx.strokeStyle = point.inCurrentBatch ? '#333' : '#ddd';
+                        this.ctx.lineWidth = point.inCurrentBatch ? 2 : 1;
+                        this.ctx.setLineDash(point.inCurrentBatch ? [] : [5, 5]);
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(point.x, point.y);
+                        this.ctx.lineTo(centroid.x, centroid.y);
+                        this.ctx.stroke();
+                    }
+                });
+                
+                // Draw data points
+                this.dataPoints.forEach((point, index) => {
+                    this.ctx.fillStyle = point.inCurrentBatch ? '#45b7d1' : 
+                                       (this.assignments[index] !== -1 ? '#96ceb4' : '#ff6b6b');
+                    this.ctx.strokeStyle = point.inCurrentBatch ? '#333' : '#fff';
+                    this.ctx.lineWidth = point.inCurrentBatch ? 3 : 2;
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(point.x, point.y, point.inCurrentBatch ? 8 : 6, 0, 2 * Math.PI);
+                    this.ctx.fill();
+                    this.ctx.stroke();
+                });
+                
+                // Draw centroids
+                this.centroids.forEach((centroid, index) => {
+                    this.ctx.fillStyle = centroid.color;
+                    this.ctx.strokeStyle = '#000';
+                    this.ctx.lineWidth = 3;
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(centroid.x, centroid.y, 12, 0, 2 * Math.PI);
+                    this.ctx.fill();
+                    this.ctx.stroke();
+                    
+                    // Draw centroid label
+                    this.ctx.fillStyle = '#000';
+                    this.ctx.font = '12px Arial';
+                    this.ctx.textAlign = 'center';
+                    this.ctx.fillText(`C${index + 1}`, centroid.x, centroid.y + 4);
+                });
+            }
+            
+            updateStep(step, description) {
+                document.getElementById('currentStep').textContent = step;
+                document.getElementById('stepDescription').textContent = description;
+            }
+            
+            updateUI() {
+                document.getElementById('pointCount').textContent = this.dataPoints.length;
+                document.getElementById('currentBatch').textContent = this.isRunning ? 
+                    `${this.currentBatch + 1}/${this.batches.length}` : '-';
+                document.getElementById('iteration').textContent = this.iteration;
+                
+                const progress = this.batches.length > 0 ? 
+                    ((this.currentBatch / this.batches.length) * 100) : 0;
+                document.getElementById('progressFill').style.width = `${progress}%`;
+            }
+            
+            clearCanvas() {
+                this.dataPoints = [];
+                this.centroids = [];
+                this.assignments = [];
+                this.batches = [];
+                this.currentBatch = 0;
+                this.iteration = 1;
+                this.isRunning = false;
+                
+                document.getElementById('stepByStep').disabled = true;
+                document.getElementById('startClustering').disabled = false;
+                document.getElementById('convergence').textContent = 'Not Started';
+                
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.updateUI();
+                this.updateStep("Canvas Cleared", "Ready to generate new data points.");
+            }
+        }
+        
+        // Initialize the visualizer when the page loads
+        window.addEventListener('load', () => {
+            new RADARVisualizer();
+        });
+    </script>
+</body>
+</html>
