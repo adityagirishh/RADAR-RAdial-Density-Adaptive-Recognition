@@ -226,3 +226,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ⭐ **Star this repository** if RadialClustering helps accelerate your machine learning workflows!
 
 **RadialClustering** - *Redefining the speed of discovery in unsupervised learning*
+
+## 🖼️ Interactive Visual Demo
+
+You can view and interact with a step-by-step visual demo of the RadialClustering algorithm in your browser:
+
+- **File:** `radar.html`
+- **How to use:**
+    1. Open `radar.html` in any modern web browser (just double-click or right-click and choose "Open with" your browser).
+    2. Add or generate data points, initialize centroids, and step through the clustering process interactively.
+    3. The demo allows you to add custom points by clicking on the canvas, adjust clustering parameters, and visually follow the algorithm's logic.
+
+This is a great way to understand and teach how RadialClustering works!
+
